@@ -40,6 +40,13 @@ public class UserRepository implements ProfileRepository {
         return result.stream().findAny();
     }
 
+    @Override
+    public int deleteUser(int classNum) {
+        String sql = "delete from profile where classNum = ?";
+        int result = jdbcTemplate.update(sql, classNum);
+        return 0;
+    }
+
     private RowMapper<Profile> profileRowMapper(){
         return (rs, rowNum) -> {
             Profile profile = new Profile();

@@ -26,6 +26,14 @@ public class ProfileService {
         return 0;
     }
 
+    public int MembershipJoin(Profile profile){
+        if (profileRepository.findById(profile.getClassNum()).isPresent()){
+            return 0;
+        }
+        profileRepository.save(profile);
+        return 1;
+    }
+
     private void validateDuplicateProfile(Profile profile) {
         profileRepository.findById(profile.getClassNum())
                 .ifPresent(m -> {
