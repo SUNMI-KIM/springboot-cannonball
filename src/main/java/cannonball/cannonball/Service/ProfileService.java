@@ -5,6 +5,7 @@ import cannonball.cannonball.Repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,7 @@ public class ProfileService {
     public int MembershipLogin(int classNum, String passWord){
         Optional<Profile> profile = profileRepository.findById(classNum);
         if (profile.isPresent()){
-            if (profile.get().getPassWord() == passWord){
+            if (profile.get().getPassWord().equals(passWord)){
                 return 1;
             }
         }
@@ -33,6 +34,12 @@ public class ProfileService {
         profileRepository.save(profile);
         return 1;
     }
+
+    public void MembershipWithDraw(int classNum){
+        profileRepository.deleteUser(classNum);
+    }
+
+    public List<Profile> allMember() { return profileRepository.findAll(); }
 
     private void validateDuplicateProfile(Profile profile) {
         profileRepository.findById(profile.getClassNum())

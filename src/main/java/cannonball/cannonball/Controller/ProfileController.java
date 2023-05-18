@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class ProfileController {
     private final ProfileService profileService;
@@ -38,6 +40,12 @@ public class ProfileController {
 
     @DeleteMapping("cannonball/withdraw")
     public int withdraw (@RequestParam int classNum){
+        profileService.MembershipWithDraw(classNum);
         return 1;
+    }
+
+    @PostMapping("cannonball/all")
+    public List<Profile> showAllMember(){
+        return profileService.allMember();
     }
 }

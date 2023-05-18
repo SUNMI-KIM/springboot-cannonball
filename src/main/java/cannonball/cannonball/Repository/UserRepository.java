@@ -47,6 +47,11 @@ public class UserRepository implements ProfileRepository {
         return 0;
     }
 
+    @Override
+    public List<Profile> findAll() {
+        return jdbcTemplate.query("select * from Profile", profileRowMapper());
+    }
+
     private RowMapper<Profile> profileRowMapper(){
         return (rs, rowNum) -> {
             Profile profile = new Profile();
