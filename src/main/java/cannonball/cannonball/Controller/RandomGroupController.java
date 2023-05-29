@@ -32,10 +32,12 @@ public class RandomGroupController {
         return randomGroupService.makeRandom(randomGroup);
     }
 
+    @PostMapping("cannonball/showAllRandomGroup")
     public List<RandomGroup> showAllRandomGroup() {
         return randomGroupService.showAllRandom();
     }
 
+    @PostMapping("cannonball/deleteRandom")
     public int deleteRandomGroup(String randomName){
         return randomGroupService.deleteRandom(randomName);
     }
