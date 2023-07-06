@@ -31,12 +31,12 @@ public class RandomGroupApplicationController {
     }
 
     @DeleteMapping("cannonball/withdrawRandom")
-    public int withdrawRandomGroupApplication(int classNum, String randomName){
+    public int withdrawRandomGroupApplication(@RequestParam int classNum, @RequestParam String randomName){
         return randomGroupApplicationService.withdrawRandomApply(classNum, randomName);
     }
 
     @PostMapping("cannonball/numberOfApplicants")
-    public int numberOfApplicants(String randomName){
+    public int numberOfApplicants(@RequestParam String randomName){
         return randomGroupApplicationService.countOfApplicants(randomName);
     }
 }

@@ -38,7 +38,7 @@ public class RandomGroupController {
     }
 
     @PostMapping("cannonball/deleteRandom")
-    public int deleteRandomGroup(String randomName){
+    public int deleteRandomGroup(@RequestParam String randomName){
         return randomGroupService.deleteRandom(randomName);
     }
 }

@@ -20,21 +20,28 @@ public class ResultRepository implements RandomResultRepository{
 
     @Override
     public int save(RandomResult randomResult) {
-        return 0;
+        jdbcTemplate.update("insert into randomresult value(?,?,?,?,?)",
+                randomResult.getClassNum(),
+                randomResult.getName(),
+                randomResult.getGender(),
+                randomResult.getRandomName(),
+                randomResult.getGroupNum());
+        return 1;
     }
 
     @Override
     public List<RandomResult> allRandomResult(String randomName) {
-        return null;
+        return jdbcTemplate.query("select * from randomresult where randomName = ? order by groupNum", RandomResultRowMapper(), randomName);
     }
 
     @Override
     public int modify(int classNum, String randomName, int groupNum) {
+
         return 0;
     }
 
-    public List<RandomResult> findByName(String randomName) {
-        return jdbcTemplate.query("select * from randomgroupapplication where randomName = ?", RandomResultRowMapper(), randomName);
+    public List<RandomResult> findByNameGender(String randomName, String gender) {
+        return jdbcTemplate.query("select * from randomgroupapplication where randomName = ? and gender = ?", RandomGroupApplicationRowMapper(), randomName, gender);
     }
 
     public int findNumByName(String randomName){
@@ -44,6 +51,19 @@ public class ResultRepository implements RandomResultRepository{
     private RowMapper<RandomResult> RandomResultRowMapper(){
         return (rs, rowNum) -> {
             RandomResult randomResult = new RandomResult();
+            randomResult.setGroupNum(rs.getInt("groupNum"));
+            randomResult.setClassNum(rs.getInt("classNum"));
+            randomResult.setName(rs.getString("name"));
+            randomResult.setGender(rs.getString("gender"));
+            randomResult.setRandomName(rs.getString("randomName"));
+            return randomResult;
+        };
+    }
+
+    private RowMapper<RandomResult> RandomGroupApplicationRowMapper(){
+        return (rs, rowNum) -> {
+            RandomResult randomResult = new RandomResult();
+            randomResult.setGroupNum(0);
             randomResult.setClassNum(rs.getInt("classNum"));
             randomResult.setName(rs.getString("name"));
             randomResult.setGender(rs.getString("gender"));
