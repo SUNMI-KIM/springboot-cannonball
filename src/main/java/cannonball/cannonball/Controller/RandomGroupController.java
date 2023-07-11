@@ -4,6 +4,7 @@ import cannonball.cannonball.Domain.RandomGroup;
 import cannonball.cannonball.Service.RandomGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +21,7 @@ public class RandomGroupController {
     }
 
     @PostMapping("cannonball/makeRandom")
-    public RandomGroup makeRandomGroup(@RequestParam String randomName, @RequestParam int boyGirlNum, @RequestParam Date deadLine,
-                                  @RequestParam Date raiseRandom, @RequestParam int inGroupOf, @RequestParam Date startRandom){
-        RandomGroup randomGroup = new RandomGroup();
-        randomGroup.setRandomName(randomName);
-        randomGroup.setBoyGirlNum(boyGirlNum);
-        randomGroup.setDeadLine(deadLine);
-        randomGroup.setRaiseRandom(raiseRandom);
-        randomGroup.setInGroupOf(inGroupOf);
-        randomGroup.setStartRandom(startRandom);
+    public RandomGroup makeRandomGroup(@RequestBody RandomGroup randomGroup){
         return randomGroupService.makeRandom(randomGroup);
     }
 
@@ -38,7 +31,7 @@ public class RandomGroupController {
     }
 
     @PostMapping("cannonball/deleteRandom")
-    public int deleteRandomGroup(@RequestParam String randomName){
+    public int deleteRandomGroup(@RequestBody String randomName){
         return randomGroupService.deleteRandom(randomName);
     }
 }

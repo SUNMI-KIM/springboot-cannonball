@@ -36,7 +36,7 @@ public class UserRepository implements ProfileRepository {
 
     @Override
     public Optional<Profile> findById(int classNum) {
-        List<Profile> result = jdbcTemplate.query("select * from Profile where classNum = ?", profileRowMapper(), classNum);
+        List<Profile> result = jdbcTemplate.query("select * from profile where classNum = ?", profileRowMapper(), classNum);
         return result.stream().findAny();
     }
 
@@ -49,7 +49,7 @@ public class UserRepository implements ProfileRepository {
 
     @Override
     public List<Profile> findAll() {
-        return jdbcTemplate.query("select * from Profile", profileRowMapper());
+        return jdbcTemplate.query("select * from profile", profileRowMapper());
     }
 
     private RowMapper<Profile> profileRowMapper(){

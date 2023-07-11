@@ -21,7 +21,7 @@ public class GroupRepository implements RandomGroupRepository{
 
     @Override
     public RandomGroup save(RandomGroup randomGroup) {
-        String sql = "insert into randomGroup values(?,?,?,?,?,?)";
+        String sql = "insert into randomgroup values(?,?,?,?,?,?)";
         jdbcTemplate.update(sql,
                             randomGroup.getRandomName(),
                             randomGroup.getBoyGirlNum(),
@@ -34,14 +34,14 @@ public class GroupRepository implements RandomGroupRepository{
 
     @Override
     public int delete(String randomName) {
-        String sql = "delete from randomGroup where randomName = ?";
+        String sql = "delete from randomgroup where randomName = ?";
         int result = jdbcTemplate.update(sql, randomName);
         return 1;
     }
 
     @Override
     public List<RandomGroup> allRandomGroup() {
-        return jdbcTemplate.query("select * from randomGroup", RandomGroupRowMapper());
+        return jdbcTemplate.query("select * from randomgroup", RandomGroupRowMapper());
     }
 
     private RowMapper<RandomGroup> RandomGroupRowMapper(){

@@ -3,12 +3,10 @@ package cannonball.cannonball.Controller;
 import cannonball.cannonball.Domain.Profile;
 import cannonball.cannonball.Service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProfileController {
@@ -20,31 +18,23 @@ public class ProfileController {
     }
 
     @PostMapping("/cannonball/join")
-    public int join (@RequestParam int classNum, @RequestParam String name, @RequestParam String gender,
-                     @RequestParam String password, @RequestParam String phoneNum, @RequestParam String className){
-        Profile profile = new Profile();
-        profile.setClassNum(classNum);
-        profile.setName(name);
-        profile.setGender(gender);
-        profile.setPassWord(password);
-        profile.setPhoneNum(phoneNum);
-        profile.setClassName(className);
-        profileService.MembershipJoin(profile);
-        return 1;
+    public int join (Profile profile){
+        return profileService.MembershipJoin(profile);
     }
 
-    @PostMapping("cannonball/login")
-    public int login (@RequestParam int classNum, @RequestParam String password){
-        return profileService.MembershipLogin(classNum, password);
+    @PostMapping("/cannonball/login")
+    public int login (@RequestBody Map<String, String> payload){
+        String classNum = payload.get("classNum");
+        String password = payload.get("password");
+        return profileService.MembershipLogin(Integer.parseInt(classNum), password);
     }
 
-    @DeleteMapping("cannonball/withdraw")
-    public int withdraw (@RequestParam int classNum){
-        profileService.MembershipWithDraw(classNum);
-        return 1;
+    @DeleteMapping("/cannonball/withdraw")
+    public int withdraw (@RequestBody String classNum){
+        return profileService.MembershipWithDraw(Integer.parseInt(classNum));
     }
 
-    @PostMapping("cannonball/all")
+    @PostMapping("/cannonball/all")
     public List<Profile> showAllMember(){
         return profileService.allMember();
     }

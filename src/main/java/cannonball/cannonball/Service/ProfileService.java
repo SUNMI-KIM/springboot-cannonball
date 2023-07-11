@@ -35,8 +35,8 @@ public class ProfileService {
         return 1;
     }
 
-    public void MembershipWithDraw(int classNum){
-        profileRepository.deleteUser(classNum);
+    public int MembershipWithDraw(int classNum){
+        return profileRepository.deleteUser(classNum);
     }
 
     public List<Profile> allMember() { return profileRepository.findAll(); }

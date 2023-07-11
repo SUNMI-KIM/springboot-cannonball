@@ -21,7 +21,7 @@ public class RandomGroupApplicationRepository implements RandomGroupApplyReposit
 
     @Override
     public int saveApplication(RandomGroupApplication randomGroupApplication) {
-        String sql = "insert into randomGroupApplication values(?,?,?,?)";
+        String sql = "insert into randomgroupapplication values(?,?,?,?)";
         jdbcTemplate.update(sql,
                 randomGroupApplication.getClassNum(),
                 randomGroupApplication.getName(),
@@ -32,7 +32,7 @@ public class RandomGroupApplicationRepository implements RandomGroupApplyReposit
 
     @Override
     public int withdrawRandomApplication(int classNum, String RandomName) {
-        String sql = "delete from randomGroupApplication where randomName = ? and classNum = ?";
+        String sql = "delete from randomgroupapplication where randomName = ? and classNum = ?";
         int result = jdbcTemplate.update(sql, RandomName, classNum);
         return 1;
     }
@@ -40,7 +40,7 @@ public class RandomGroupApplicationRepository implements RandomGroupApplyReposit
     @Override
     public int count(String randomName) {
         Integer count = jdbcTemplate.queryForObject(
-                "select count(*) from randomGroupApplication where randomName = ?", Integer.class, randomName);
+                "select count(*) from randomgroupapplication where randomName = ?", Integer.class, randomName);
         return count;
     }
 }

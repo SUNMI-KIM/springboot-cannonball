@@ -3,10 +3,9 @@ package cannonball.cannonball.Controller;
 import cannonball.cannonball.Domain.RandomGroupApplication;
 import cannonball.cannonball.Service.RandomGroupApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class RandomGroupApplicationController {
@@ -18,25 +17,19 @@ public class RandomGroupApplicationController {
     }
 
     @PostMapping("cannonball/application")
-    public int GroupApplication(@RequestParam int classNum,
-                                @RequestParam String name,
-                                @RequestParam String gender,
-                                @RequestParam String randomName) {
-        RandomGroupApplication randomGroupApplication = new RandomGroupApplication();
-        randomGroupApplication.setClassNum(classNum);
-        randomGroupApplication.setName(name);
-        randomGroupApplication.setGender(gender);
-        randomGroupApplication.setRandomName(randomName);
+    public int GroupApplication(@RequestBody RandomGroupApplication randomGroupApplication) {
         return randomGroupApplicationService.saveRandomApply(randomGroupApplication);
     }
 
     @DeleteMapping("cannonball/withdrawRandom")
-    public int withdrawRandomGroupApplication(@RequestParam int classNum, @RequestParam String randomName){
-        return randomGroupApplicationService.withdrawRandomApply(classNum, randomName);
+    public int withdrawRandomGroupApplication(@RequestBody Map<String, String> payload){
+        String classNum = payload.get("classNum");
+        String randomName = payload.get("randomName");
+        return randomGroupApplicationService.withdrawRandomApply(Integer.parseInt(classNum), randomName);
     }
 
     @PostMapping("cannonball/numberOfApplicants")
-    public int numberOfApplicants(@RequestParam String randomName){
+    public int numberOfApplicants(@RequestBody String randomName){
         return randomGroupApplicationService.countOfApplicants(randomName);
     }
 }
