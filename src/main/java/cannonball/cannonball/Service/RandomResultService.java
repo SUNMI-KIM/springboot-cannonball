@@ -47,6 +47,13 @@ public class RandomResultService {
         return 1;
     }
 
+    public int modifyGroup(List<RandomResult> randomResults) {
+        for(int i = 0; i < randomResults.size(); i++){
+            resultRepository.modify(randomResults.get(i));
+        }
+        return 1;
+    }
+
     public List<RandomResult> showAll(String randomName){
         return resultRepository.allRandomResult(randomName);
     }

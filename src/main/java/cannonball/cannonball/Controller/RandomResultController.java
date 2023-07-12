@@ -3,10 +3,7 @@ package cannonball.cannonball.Controller;
 import cannonball.cannonball.Domain.RandomResult;
 import cannonball.cannonball.Service.RandomResultService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,10 @@ public class RandomResultController {
     @PostMapping("cannonball/show-group")
     public List<RandomResult> showAllRandomGroup(@RequestBody String randomName){
         return randomResultService.showAll(randomName);
+    }
+
+    @PutMapping("cannonball/modify-group")
+    public int modifyRandomGroupResult(@RequestBody List<RandomResult> randomResults){
+        return randomResultService.modifyGroup(randomResults);
     }
 }

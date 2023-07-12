@@ -35,9 +35,9 @@ public class ResultRepository implements RandomResultRepository{
     }
 
     @Override
-    public int modify(int classNum, String randomName, int groupNum) {
-
-        return 0;
+    public int modify(RandomResult randomResult) {
+        return jdbcTemplate.update("insert randomresult set groupNum = ? where randomName = ? and classNum = ?",
+                randomResult.getGroupNum(), randomResult.getRandomName(), randomResult.getClassNum());
     }
 
     public List<RandomResult> findByNameGender(String randomName, String gender) {
