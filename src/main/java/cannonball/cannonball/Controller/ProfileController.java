@@ -24,13 +24,30 @@ public class ProfileController {
 
     @PostMapping("/cannonball/login")
     public int login (@RequestBody Map<String, String> payload){
-        String classNum = payload.get("classNum");
+        String classNumString = payload.get("classNum");
+        if (classNumString == null) {
+            return 0;
+        }
+        try {
+            int i = Integer.parseInt(classNumString);
+        } catch (NumberFormatException nfe) {
+            return 0;
+        }
+        int classNum = Integer.parseInt(classNumString);
         String password = payload.get("password");
-        return profileService.MembershipLogin(Integer.parseInt(classNum), password);
+        return profileService.MembershipLogin(classNum, password);
     }
 
     @DeleteMapping("/cannonball/withdraw")
     public int withdraw (@RequestBody String classNum){
+        if (classNum == null) {
+            return 0;
+        }
+        try {
+            int i = Integer.parseInt(classNum);
+        } catch (NumberFormatException nfe) {
+            return 0;
+        }
         return profileService.MembershipWithDraw(Integer.parseInt(classNum));
     }
 
@@ -38,4 +55,5 @@ public class ProfileController {
     public List<Profile> showAllMember(){
         return profileService.allMember();
     }
+
 }

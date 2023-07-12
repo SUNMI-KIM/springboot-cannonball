@@ -23,9 +23,18 @@ public class RandomGroupApplicationController {
 
     @DeleteMapping("cannonball/withdrawRandom")
     public int withdrawRandomGroupApplication(@RequestBody Map<String, String> payload){
-        String classNum = payload.get("classNum");
+        String classNumString = payload.get("classNum");
+        if (classNumString == null) {
+            return 0;
+        }
+        try {
+            int i = Integer.parseInt(classNumString);
+        } catch (NumberFormatException nfe) {
+            return 0;
+        }
+        int classNumInt = Integer.parseInt(classNumString);
         String randomName = payload.get("randomName");
-        return randomGroupApplicationService.withdrawRandomApply(Integer.parseInt(classNum), randomName);
+        return randomGroupApplicationService.withdrawRandomApply(classNumInt, randomName);
     }
 
     @PostMapping("cannonball/numberOfApplicants")
