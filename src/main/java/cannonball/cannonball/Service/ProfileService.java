@@ -17,7 +17,7 @@ public class ProfileService {
         this.profileRepository = profileRepository;
     }
 
-    public int MembershipLogin(int classNum, String passWord){
+    public int MembershipLogin(String classNum, String passWord){
         Optional<Profile> profile = profileRepository.findById(classNum);
         if (profile.isPresent()){
             if (profile.get().getPassWord().equals(passWord)){
@@ -35,7 +35,7 @@ public class ProfileService {
         return 1;
     }
 
-    public int MembershipWithDraw(int classNum){
+    public int MembershipWithDraw(String classNum){
         return profileRepository.deleteUser(classNum);
     }
 

@@ -35,16 +35,16 @@ public class UserRepository implements ProfileRepository {
     }
 
     @Override
-    public Optional<Profile> findById(int classNum) {
+    public Optional<Profile> findById(String classNum) {
         List<Profile> result = jdbcTemplate.query("select * from profile where classNum = ?", profileRowMapper(), classNum);
         return result.stream().findAny();
     }
 
     @Override
-    public int deleteUser(int classNum) {
+    public int deleteUser(String classNum) {
         String sql = "delete from profile where classNum = ?";
         int result = jdbcTemplate.update(sql, classNum);
-        return 0;
+        return result;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UserRepository implements ProfileRepository {
     private RowMapper<Profile> profileRowMapper(){
         return (rs, rowNum) -> {
             Profile profile = new Profile();
-            profile.setClassNum(rs.getInt("classNum"));
+            profile.setClassNum(rs.getString("classNum"));
             profile.setPassWord(rs.getString("passWord"));
             profile.setPhoneNum(rs.getString("phoneNum"));
             profile.setName(rs.getString("name"));

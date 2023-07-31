@@ -18,7 +18,7 @@ public class RandomGroupApplicationService {
         return randomGroupApplyRepository.saveApplication(randomGroupApplication);
     }
 
-    public int withdrawRandomApply(int classNum, String randomName){
+    public int withdrawRandomApply(String classNum, String randomName){
         return randomGroupApplyRepository.withdrawRandomApplication(classNum, randomName);
     }
 

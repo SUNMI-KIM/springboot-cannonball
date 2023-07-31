@@ -1,7 +1,6 @@
 package cannonball.cannonball.Service;
 
 import cannonball.cannonball.Domain.RandomResult;
-import cannonball.cannonball.Repository.RandomResultRepository;
 import cannonball.cannonball.Repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

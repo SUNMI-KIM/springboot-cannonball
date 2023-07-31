@@ -1,16 +1,16 @@
 package cannonball.cannonball.Domain;
 
 public class RandomGroupApplication {
-    private int classNum;
+    private String classNum;
     private String name;
     private String gender;
     private String randomName;
 
-    public int getClassNum() {
+    public String getClassNum() {
         return classNum;
     }
 
-    public void setClassNum(int classNum) {
+    public void setClassNum(String classNum) {
         this.classNum = classNum;
     }
 

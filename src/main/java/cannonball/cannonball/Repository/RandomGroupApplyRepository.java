@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface RandomGroupApplyRepository {
     public int saveApplication(RandomGroupApplication randomGroupApplication);
-    public int withdrawRandomApplication(int classNum, String RandomName);
+    public int withdrawRandomApplication(String classNum, String RandomName);
     public int count(String randomName);
 }

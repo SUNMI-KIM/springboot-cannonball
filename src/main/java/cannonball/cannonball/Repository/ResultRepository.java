@@ -52,7 +52,7 @@ public class ResultRepository implements RandomResultRepository{
         return (rs, rowNum) -> {
             RandomResult randomResult = new RandomResult();
             randomResult.setGroupNum(rs.getInt("groupNum"));
-            randomResult.setClassNum(rs.getInt("classNum"));
+            randomResult.setClassNum(rs.getString("classNum"));
             randomResult.setName(rs.getString("name"));
             randomResult.setGender(rs.getString("gender"));
             randomResult.setRandomName(rs.getString("randomName"));
@@ -64,7 +64,7 @@ public class ResultRepository implements RandomResultRepository{
         return (rs, rowNum) -> {
             RandomResult randomResult = new RandomResult();
             randomResult.setGroupNum(0);
-            randomResult.setClassNum(rs.getInt("classNum"));
+            randomResult.setClassNum(rs.getString("classNum"));
             randomResult.setName(rs.getString("name"));
             randomResult.setGender(rs.getString("gender"));
             randomResult.setRandomName(rs.getString("randomName"));

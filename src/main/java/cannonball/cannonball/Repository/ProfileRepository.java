@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ProfileRepository {
     public Profile save(Profile profile);
-    public Optional<Profile> findById(int classNum);
-    public int deleteUser (int classNum);
+    public Optional<Profile> findById(String classNum);
+    public int deleteUser (String classNum);
     public List<Profile> findAll();
 }

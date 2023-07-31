@@ -18,37 +18,24 @@ public class ProfileController {
     }
 
     @PostMapping("/cannonball/join")
-    public int join (Profile profile){
+    public int join (@RequestBody Profile profile){
         return profileService.MembershipJoin(profile);
     }
 
     @PostMapping("/cannonball/login")
     public int login (@RequestBody Map<String, String> payload){
-        String classNumString = payload.get("classNum");
-        if (classNumString == null) {
-            return 0;
-        }
-        try {
-            int i = Integer.parseInt(classNumString);
-        } catch (NumberFormatException nfe) {
-            return 0;
-        }
-        int classNum = Integer.parseInt(classNumString);
-        String password = payload.get("password");
+        String classNum = payload.get("classNum");
+        String password = payload.get("passWord");
         return profileService.MembershipLogin(classNum, password);
     }
 
     @DeleteMapping("/cannonball/withdraw")
-    public int withdraw (@RequestBody String classNum){
+    public int withdraw (@RequestBody Map<String, String> classNumMap){
+        String classNum = classNumMap.get("classNum");
         if (classNum == null) {
             return 0;
         }
-        try {
-            int i = Integer.parseInt(classNum);
-        } catch (NumberFormatException nfe) {
-            return 0;
-        }
-        return profileService.MembershipWithDraw(Integer.parseInt(classNum));
+        return profileService.MembershipWithDraw(classNum);
     }
 
     @PostMapping("/cannonball/all")
