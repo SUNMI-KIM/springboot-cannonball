@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RandomResultController {
@@ -17,12 +18,14 @@ public class RandomResultController {
     }
 
     @PostMapping("cannonball/make-random")
-    public int makeRandomGroup(@RequestBody String randomName){
+    public int makeRandomGroup(@RequestBody Map<String, String> randomNameMap){
+        String randomName = randomNameMap.get("randomName");
         return randomResultService.makeRandomGroup(randomName);
     }
 
-    @PostMapping("cannonball/show-group")
-    public List<RandomResult> showAllRandomGroup(@RequestBody String randomName){
+    @GetMapping("cannonball/show-group")
+    public List<RandomResult> showAllRandomGroup(@RequestBody Map<String, String> randomNameMap){
+        String randomName = randomNameMap.get("randomName");
         return randomResultService.showAll(randomName);
     }
 

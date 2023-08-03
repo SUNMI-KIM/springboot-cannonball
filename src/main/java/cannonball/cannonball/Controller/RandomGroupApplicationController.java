@@ -28,7 +28,7 @@ public class RandomGroupApplicationController {
         return randomGroupApplicationService.withdrawRandomApply(classNum, randomName);
     }
 
-    @PostMapping("cannonball/numberOfApplicants")
+    @GetMapping("cannonball/numberOfApplicants")
     public int numberOfApplicants(@RequestBody String randomName){
         return randomGroupApplicationService.countOfApplicants(randomName);
     }

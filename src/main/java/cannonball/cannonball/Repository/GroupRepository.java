@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class GroupRepository implements RandomGroupRepository{
@@ -20,7 +21,7 @@ public class GroupRepository implements RandomGroupRepository{
     }
 
     @Override
-    public RandomGroup save(RandomGroup randomGroup) {
+    public void save(RandomGroup randomGroup) {
         String sql = "insert into randomgroup values(?,?,?,?,?,?)";
         jdbcTemplate.update(sql,
                             randomGroup.getRandomName(),
@@ -29,19 +30,23 @@ public class GroupRepository implements RandomGroupRepository{
                             randomGroup.getRaiseRandom(),
                             randomGroup.getInGroupOf(),
                             randomGroup.getStartRandom());
-        return randomGroup;
     }
 
     @Override
     public int delete(String randomName) {
         String sql = "delete from randomgroup where randomName = ?";
         int result = jdbcTemplate.update(sql, randomName);
-        return 1;
+        return result;
     }
 
     @Override
     public List<RandomGroup> allRandomGroup() {
         return jdbcTemplate.query("select * from randomgroup", RandomGroupRowMapper());
+    }
+
+    public Optional<RandomGroup> findByName(String randomName) {
+        List<RandomGroup> randomGroups = jdbcTemplate.query("select * from randomgroup where randomName = ?", RandomGroupRowMapper(), randomName);
+        return randomGroups.stream().findAny();
     }
 
     private RowMapper<RandomGroup> RandomGroupRowMapper(){

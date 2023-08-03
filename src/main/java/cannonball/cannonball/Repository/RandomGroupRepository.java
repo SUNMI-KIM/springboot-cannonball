@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface RandomGroupRepository {
-    public RandomGroup save(RandomGroup randomGroup);
+    public void save(RandomGroup randomGroup);
     public int delete(String randomName);
     public List<RandomGroup> allRandomGroup();
 }

@@ -34,7 +34,7 @@ public class RandomGroupApplicationRepository implements RandomGroupApplyReposit
     public int withdrawRandomApplication(String classNum, String RandomName) {
         String sql = "delete from randomgroupapplication where randomName = ? and classNum = ?";
         int result = jdbcTemplate.update(sql, RandomName, classNum);
-        return 1;
+        return result;
     }
 
     @Override
