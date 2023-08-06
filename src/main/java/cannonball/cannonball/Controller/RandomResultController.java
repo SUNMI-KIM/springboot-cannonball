@@ -30,7 +30,7 @@ public class RandomResultController {
     }
 
     @PutMapping("cannonball/modify-group")
-    public int modifyRandomGroupResult(@RequestBody List<RandomResult> randomResults){
-        return randomResultService.modifyGroup(randomResults);
+    public int modifyRandomGroupResult(@RequestBody RandomResult randomResult){
+        return randomResultService.modifyGroup(randomResult);
     }
 }

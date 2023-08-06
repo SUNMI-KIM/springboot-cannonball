@@ -20,13 +20,13 @@ public class ResultRepository implements RandomResultRepository{
 
     @Override
     public int save(RandomResult randomResult) {
-        jdbcTemplate.update("insert into randomresult value(?,?,?,?,?)",
+        int result = jdbcTemplate.update("insert into randomresult value(?,?,?,?,?)",
                 randomResult.getClassNum(),
                 randomResult.getName(),
                 randomResult.getGender(),
                 randomResult.getRandomName(),
                 randomResult.getGroupNum());
-        return 1;
+        return result;
     }
 
     @Override

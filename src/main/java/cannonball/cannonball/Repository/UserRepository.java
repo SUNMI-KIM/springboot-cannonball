@@ -52,6 +52,13 @@ public class UserRepository implements ProfileRepository {
         return jdbcTemplate.query("select * from profile", profileRowMapper());
     }
 
+    @Override
+    public int modify(String classNum, String gender) {
+        String sql = "update profile set gender =? where classNum =?";
+        int result = jdbcTemplate.update(sql, gender, classNum);
+        return result;
+    }
+
     private RowMapper<Profile> profileRowMapper(){
         return (rs, rowNum) -> {
             Profile profile = new Profile();

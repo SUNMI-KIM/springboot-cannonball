@@ -10,4 +10,5 @@ public interface ProfileRepository {
     public Optional<Profile> findById(String classNum);
     public int deleteUser (String classNum);
     public List<Profile> findAll();
+    public int modify(String gender, String classNum);
 }
