@@ -21,15 +21,16 @@ public class GroupRepository implements RandomGroupRepository{
     }
 
     @Override
-    public void save(RandomGroup randomGroup) {
+    public int save(RandomGroup randomGroup) {
         String sql = "insert into randomgroup values(?,?,?,?,?,?)";
-        jdbcTemplate.update(sql,
+        int result = jdbcTemplate.update(sql,
                             randomGroup.getRandomName(),
                             randomGroup.getBoyGirlNum(),
                             randomGroup.getDeadLine(),
                             randomGroup.getRaiseRandom(),
                             randomGroup.getInGroupOf(),
                             randomGroup.getStartRandom());
+        return result;
     }
 
     @Override
@@ -45,8 +46,14 @@ public class GroupRepository implements RandomGroupRepository{
     }
 
     public Optional<RandomGroup> findByName(String randomName) {
-        List<RandomGroup> randomGroups = jdbcTemplate.query("select * from randomgroup where randomName = ?", RandomGroupRowMapper(), randomName);
+        List<RandomGroup> randomGroups = jdbcTemplate.query("select * from randomgroup where randomName=?", RandomGroupRowMapper(), randomName);
         return randomGroups.stream().findAny();
+    }
+
+    public int modify(String randomName, int inGroupOf) {
+        String sql = "update randomgroup set inGroupOf=? where randomName=?";
+        int result = jdbcTemplate.update(sql, inGroupOf, randomName);
+        return result;
     }
 
     private RowMapper<RandomGroup> RandomGroupRowMapper(){

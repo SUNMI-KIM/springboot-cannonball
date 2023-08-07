@@ -5,7 +5,9 @@ import cannonball.cannonball.Repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RandomGroupService {
@@ -19,15 +21,31 @@ public class RandomGroupService {
         return groupRepository.allRandomGroup();
     }
 
-    public int makeRandom(RandomGroup randomGroup) {
+    public boolean makeRandom(RandomGroup randomGroup) {
         if (groupRepository.findByName(randomGroup.getRandomName()).isPresent()) {
-            return 0;
+            return false;
         }
-        return 1;
+        groupRepository.save(randomGroup);
+        return true;
     }
 
-    public int deleteRandom(String randomName){
-        return groupRepository.delete(randomName);
+    public boolean deleteRandom(String randomName){
+        if (groupRepository.delete(randomName) == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean modifyRandom(String randomName, int inGroupOf) {
+        if (groupRepository.modify(randomName, inGroupOf) == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public Date findRandomDate(String randomName) {
+        Optional<RandomGroup> randomGroup = groupRepository.findByName(randomName);
+        return randomGroup.get().getRaiseRandom();
     }
 
 }
