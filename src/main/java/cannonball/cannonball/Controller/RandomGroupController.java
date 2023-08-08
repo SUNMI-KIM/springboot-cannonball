@@ -29,13 +29,13 @@ public class RandomGroupController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 생성 실패", 0));
     }
 
-    @GetMapping("cannonball/all-random-group")
+    @GetMapping("cannonball/random-group")
     public ResponseEntity<ResponseList> showAllRandomGroup() {
         List<RandomGroup> randomGroups = randomGroupService.showAllRandom();
         return ResponseEntity.ok().body(new ResponseList("랜덤 그룹 정보", randomGroups, randomGroups.size()));
     }
 
-    @DeleteMapping("cannonball/delete-random")
+    @DeleteMapping("cannonball/random-group")
     public ResponseEntity<Response> deleteRandomGroup(@RequestBody Map<String, String> randomNameMap){
         String randomName = randomNameMap.get("randomName");
         if (randomGroupService.deleteRandom(randomName)) {
@@ -44,7 +44,7 @@ public class RandomGroupController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 제거 실패", 0));
     }
 
-    /*@PutMapping("cannonball/modify-group")
+    /*@PutMapping("cannonball/random-group")
     public ResponseEntity<Response> modifyRandomGroup(@RequestBody Map<String, Object> randomGroupMap) {
         String randomName = (String) randomGroupMap.get("randomName");
         int inGroupOf = (int) randomGroupMap.get("inGroupOf");

@@ -41,7 +41,7 @@ public class ProfileController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("로그인 실패", 1));
     }
 
-    @DeleteMapping("/cannonball/withdraw")
+    @DeleteMapping("/cannonball/profile")
     public ResponseEntity<Response> withdraw (@RequestBody Map<String, String> classNumMap) {
         String classNum = classNumMap.get("classNum");
         if (profileService.MembershipWithDraw(classNum)) {
@@ -50,13 +50,13 @@ public class ProfileController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("삭제 실패", 0));
     }
 
-    @GetMapping("/cannonball/all")
+    @GetMapping("/cannonball/profile")
     public ResponseEntity<ResponseList> showAllMember(){
         List<Profile> profiles = profileService.allMember();
         return ResponseEntity.ok().body(new ResponseList("모든 회원 정보 조회", profiles, profiles.size()));
     }
 
-    @PutMapping("cannonball/modify-user")
+    @PutMapping("cannonball/profile$")
     public ResponseEntity<Response> modifyProfile(@RequestBody Map<String, String> profileMap) {
         String classNum = profileMap.get("classNum");
         String gender = profileMap.get("gender");

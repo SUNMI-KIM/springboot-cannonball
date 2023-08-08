@@ -1,28 +1,38 @@
 package cannonball.cannonball.Service;
 
 import cannonball.cannonball.Domain.RandomGroupApplication;
-import cannonball.cannonball.Repository.RandomGroupApplyRepository;
+import cannonball.cannonball.Repository.RandomGroupApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RandomGroupApplicationService {
-    RandomGroupApplyRepository randomGroupApplyRepository;
+    RandomGroupApplicationRepository randomGroupApplicationRepository;
 
     @Autowired
-    public RandomGroupApplicationService(RandomGroupApplyRepository randomGroupApplyRepository){
-        this.randomGroupApplyRepository = randomGroupApplyRepository;
+    public RandomGroupApplicationService(RandomGroupApplicationRepository randomGroupApplicationRepository){
+        this.randomGroupApplicationRepository = randomGroupApplicationRepository;
     }
 
-    public int saveRandomApply(RandomGroupApplication randomGroupApplication){
-        return randomGroupApplyRepository.saveApplication(randomGroupApplication);
+    public boolean saveRandomApply(RandomGroupApplication randomGroupApplication){
+        if (randomGroupApplicationRepository.findbyName(
+                randomGroupApplication.getRandomName(),
+                randomGroupApplication.getClassNum())
+                .isPresent()) {
+            return false;
+        }
+        randomGroupApplicationRepository.saveApplication(randomGroupApplication);
+        return true;
     }
 
-    public int withdrawRandomApply(String classNum, String randomName){
-        return randomGroupApplyRepository.withdrawRandomApplication(classNum, randomName);
+    public boolean withdrawRandomApply(String classNum, String randomName){
+        if (randomGroupApplicationRepository.withdrawRandomApplication(classNum, randomName) == 1) {
+            return true;
+        }
+        return false;
     }
 
     public int countOfApplicants(String randomName){
-        return randomGroupApplyRepository.count(randomName);
+        return randomGroupApplicationRepository.count(randomName);
     }
 }

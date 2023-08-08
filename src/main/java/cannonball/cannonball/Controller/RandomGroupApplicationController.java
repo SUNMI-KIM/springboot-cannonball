@@ -1,8 +1,10 @@
 package cannonball.cannonball.Controller;
 
 import cannonball.cannonball.Domain.RandomGroupApplication;
+import cannonball.cannonball.Domain.Response;
 import cannonball.cannonball.Service.RandomGroupApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -16,20 +18,28 @@ public class RandomGroupApplicationController {
         this.randomGroupApplicationService = randomGroupApplicationService;
     }
 
-    @PostMapping("cannonball/application")
-    public int GroupApplication(@RequestBody RandomGroupApplication randomGroupApplication) {
-        return randomGroupApplicationService.saveRandomApply(randomGroupApplication);
+    @PostMapping("cannonball/random-group-application")
+    public ResponseEntity<Response> GroupApplication(@RequestBody RandomGroupApplication randomGroupApplication) {
+        if (randomGroupApplicationService.saveRandomApply(randomGroupApplication)) {
+            return ResponseEntity.ok().body(new Response("랜덤 번개조 신청 성공", 1));
+        }
+        return ResponseEntity.badRequest().body(new Response("랜덤 번개 조 신청 실패", 0));
     }
 
-    @DeleteMapping("cannonball/withdrawRandom")
-    public int withdrawRandomGroupApplication(@RequestBody Map<String, String> payload){
+    @DeleteMapping("cannonball/random-group-application")
+    public ResponseEntity<Response> withdrawRandomGroupApplication(@RequestBody Map<String, String> payload){
         String classNum = payload.get("classNum");
         String randomName = payload.get("randomName");
-        return randomGroupApplicationService.withdrawRandomApply(classNum, randomName);
+        if (randomGroupApplicationService.withdrawRandomApply(classNum, randomName)) {
+            return ResponseEntity.ok().body(new Response("랜덤 조 탈퇴 성공", 1));
+        }
+        return ResponseEntity.badRequest().body(new Response("랜덤 조 탈퇴 실패", 0));
     }
 
-    @GetMapping("cannonball/numberOfApplicants")
-    public int numberOfApplicants(@RequestBody String randomName){
-        return randomGroupApplicationService.countOfApplicants(randomName);
+    @GetMapping("cannonball/number-of-applicants")
+    public ResponseEntity<Response> numberOfApplicants(@RequestBody Map<String, String> RandomNameMap){
+        String randomName = RandomNameMap.get("randomName");
+
+        return ResponseEntity.ok().body(new Response("랜덤 조 신청 인원", randomGroupApplicationService.countOfApplicants(randomName)));
     }
 }
