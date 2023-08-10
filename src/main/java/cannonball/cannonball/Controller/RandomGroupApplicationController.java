@@ -4,6 +4,7 @@ import cannonball.cannonball.Domain.RandomGroupApplication;
 import cannonball.cannonball.Domain.Response;
 import cannonball.cannonball.Service.RandomGroupApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,10 @@ public class RandomGroupApplicationController {
     @GetMapping("cannonball/number-of-applicants")
     public ResponseEntity<Response> numberOfApplicants(@RequestBody Map<String, String> RandomNameMap){
         String randomName = RandomNameMap.get("randomName");
-
-        return ResponseEntity.ok().body(new Response("랜덤 조 신청 인원", randomGroupApplicationService.countOfApplicants(randomName)));
+        int count = randomGroupApplicationService.countOfApplicants(randomName);
+        if (count > 0) {
+            return ResponseEntity.ok().body(new Response("랜덤 조 신청 인원", count));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조를 찾을 수 없음", 0));
     }
 }

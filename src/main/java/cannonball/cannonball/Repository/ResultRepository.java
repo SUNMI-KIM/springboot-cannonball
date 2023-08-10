@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ResultRepository implements RandomResultRepository{
@@ -40,8 +41,8 @@ public class ResultRepository implements RandomResultRepository{
                 randomResult.getGroupNum(), randomResult.getRandomName(), randomResult.getClassNum());
     }
 
-    public List<RandomResult> findByNameGender(String randomName, String gender) {
-        return jdbcTemplate.query("select * from randomgroupapplication where randomName = ? and gender = ?", RandomGroupApplicationRowMapper(), randomName, gender);
+    public List<RandomResult> findByName(String randomName) {
+        return jdbcTemplate.query("select * from randomgroupapplication where randomName = ?", RandomGroupApplicationRowMapper(), randomName);
     }
 
     public int findNumByName(String randomName){

@@ -56,11 +56,9 @@ public class ProfileController {
         return ResponseEntity.ok().body(new ResponseList("모든 회원 정보 조회", profiles, profiles.size()));
     }
 
-    @PutMapping("cannonball/profile$")
-    public ResponseEntity<Response> modifyProfile(@RequestBody Map<String, String> profileMap) {
-        String classNum = profileMap.get("classNum");
-        String gender = profileMap.get("gender");
-        if (profileService.modifyMember(classNum, gender)) {
+    @PutMapping("cannonball/profile")
+    public ResponseEntity<Response> modifyProfile(@RequestBody Profile profile) {
+        if (profileService.modifyMember(profile)) {
             return ResponseEntity.accepted().body(new Response("수정 성공", 1));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("수정 실패", 0));

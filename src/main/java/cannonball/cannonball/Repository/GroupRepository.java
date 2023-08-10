@@ -50,9 +50,14 @@ public class GroupRepository implements RandomGroupRepository{
         return randomGroups.stream().findAny();
     }
 
-    public int modify(String randomName, int inGroupOf) {
-        String sql = "update randomgroup set inGroupOf=? where randomName=?";
-        int result = jdbcTemplate.update(sql, inGroupOf, randomName);
+    public int modify(RandomGroup randomGroup) {
+        String sql = "update randomgroup set inGroupOf=?, boyGirlNum=?, deadLine=?, startRandom=?, raiseRandom=? where randomName=?";
+        int result = jdbcTemplate.update(sql,
+                randomGroup.getInGroupOf(),
+                randomGroup.getBoyGirlNum(),
+                randomGroup.getDeadLine(),
+                randomGroup.getStartRandom(),
+                randomGroup.getRaiseRandom());
         return result;
     }
 

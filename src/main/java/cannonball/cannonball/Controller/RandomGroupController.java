@@ -32,7 +32,7 @@ public class RandomGroupController {
     @GetMapping("cannonball/random-group")
     public ResponseEntity<ResponseList> showAllRandomGroup() {
         List<RandomGroup> randomGroups = randomGroupService.showAllRandom();
-        return ResponseEntity.ok().body(new ResponseList("랜덤 그룹 정보", randomGroups, randomGroups.size()));
+        return ResponseEntity.ok().body(new ResponseList("모든 랜덤 그룹 정보", randomGroups, randomGroups.size()));
     }
 
     @DeleteMapping("cannonball/random-group")
@@ -44,20 +44,22 @@ public class RandomGroupController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 제거 실패", 0));
     }
 
-    /*@PutMapping("cannonball/random-group")
-    public ResponseEntity<Response> modifyRandomGroup(@RequestBody Map<String, Object> randomGroupMap) {
-        String randomName = (String) randomGroupMap.get("randomName");
-        int inGroupOf = (int) randomGroupMap.get("inGroupOf");
-        if (randomGroupService.modifyRandom(randomName, inGroupOf)) {
+    @PutMapping("cannonball/random-group")
+    public ResponseEntity<Response> modifyRandomGroup(@RequestBody RandomGroup randomGroup) {
+        if (randomGroupService.modifyRandom(randomGroup)) {
             return ResponseEntity.ok().body(new Response("랜덤 번개조 수정 성공", 1));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 수정 실패", 0));
-    }*/
+    }
 
     @GetMapping("cannonball/date")
     public ResponseEntity<Response> findStartRandomDate(@RequestBody Map<String, String> randomNameMap) {
         String randomName = randomNameMap.get("randomName");
-        return ResponseEntity.ok().body(new Response("랜덤 번개조 올리는 날", randomGroupService.findRandomDate(randomName)));
+        Response response = randomGroupService.findRandomDate(randomName);
+        if (response.getData().equals(0)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        return ResponseEntity.ok().body(response);
     }
 
 }

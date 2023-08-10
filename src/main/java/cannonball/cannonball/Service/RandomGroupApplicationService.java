@@ -1,8 +1,10 @@
 package cannonball.cannonball.Service;
 
 import cannonball.cannonball.Domain.RandomGroupApplication;
+import cannonball.cannonball.Domain.Response;
 import cannonball.cannonball.Repository.RandomGroupApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

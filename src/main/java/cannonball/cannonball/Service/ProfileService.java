@@ -40,10 +40,12 @@ public class ProfileService {
         return false;
     }
 
-    public List<Profile> allMember() { return profileRepository.findAll(); }
+    public List<Profile> allMember() {
+        return profileRepository.findAll();
+    }
 
-    public boolean modifyMember(String classNum, String gender) {
-        if (profileRepository.modify(classNum, gender) == 1) {
+    public boolean modifyMember(Profile profile) {
+        if (profileRepository.modify(profile) == 1) {
             return true;
         }
         return false;
