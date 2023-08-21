@@ -1,4 +1,4 @@
-package cannonball.cannonball.Domain;
+package cannonball.cannonball.DTO;
 
 public class ResponseList {
     private String message;

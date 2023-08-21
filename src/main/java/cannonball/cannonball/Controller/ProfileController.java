@@ -1,18 +1,16 @@
 package cannonball.cannonball.Controller;
 
 import cannonball.cannonball.Domain.Profile;
-import cannonball.cannonball.Domain.Response;
-import cannonball.cannonball.Domain.ResponseList;
+import cannonball.cannonball.DTO.Response;
+import cannonball.cannonball.DTO.ResponseList;
 import cannonball.cannonball.Service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 public class ProfileController {
@@ -36,9 +34,9 @@ public class ProfileController {
         String classNum = profileMap.get("classNum");
         String password = profileMap.get("passWord");
         if (profileService.MembershipLogin(classNum, password)) {
-            return ResponseEntity.ok().body(new Response("로그인 성공", 0));
+            return ResponseEntity.ok().body(new Response("로그인 성공", 1));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("로그인 실패", 1));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("로그인 실패", 0));
     }
 
     @DeleteMapping("/cannonball/profile")

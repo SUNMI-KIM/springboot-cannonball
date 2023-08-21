@@ -1,8 +1,8 @@
 package cannonball.cannonball.Controller;
 
 import cannonball.cannonball.Domain.RandomGroup;
-import cannonball.cannonball.Domain.Response;
-import cannonball.cannonball.Domain.ResponseList;
+import cannonball.cannonball.DTO.Response;
+import cannonball.cannonball.DTO.ResponseList;
 import cannonball.cannonball.Service.RandomGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

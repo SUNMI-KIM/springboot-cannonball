@@ -1,6 +1,6 @@
-package cannonball.cannonball.Domain;
+package cannonball.cannonball.DTO;
 
-public class RandomResult {
+public class RandomApplicationDto {
     String classNum;
     String name;
     String gender;

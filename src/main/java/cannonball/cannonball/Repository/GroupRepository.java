@@ -57,7 +57,8 @@ public class GroupRepository implements RandomGroupRepository{
                 randomGroup.getBoyGirlNum(),
                 randomGroup.getDeadLine(),
                 randomGroup.getStartRandom(),
-                randomGroup.getRaiseRandom());
+                randomGroup.getRaiseRandom(),
+                randomGroup.getRandomName());
         return result;
     }
 

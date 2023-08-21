@@ -1,4 +1,4 @@
-package cannonball.cannonball.Domain;
+package cannonball.cannonball.DTO;
 
 import java.util.HashMap;
 

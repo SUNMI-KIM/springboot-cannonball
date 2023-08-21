@@ -1,12 +1,11 @@
 package cannonball.cannonball.Service;
 
 import cannonball.cannonball.Domain.RandomGroup;
-import cannonball.cannonball.Domain.Response;
+import cannonball.cannonball.DTO.Response;
 import cannonball.cannonball.Repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
