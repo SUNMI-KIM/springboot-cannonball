@@ -1,17 +1,18 @@
 package cannonball.cannonball.Domain;
 
 public class Profile {
-    private int classNum;
+    private String classNum;
     private String name;
     private String gender;
     private String passWord;
     private String phoneNum;
+    private String className;
 
-    public int getClassNum() {
+    public String getClassNum() {
         return classNum;
     }
 
-    public void setClassNum(int classNum) {
+    public void setClassNum(String classNum) {
         this.classNum = classNum;
     }
 
@@ -54,6 +55,4 @@ public class Profile {
     public void setClassName(String className) {
         this.className = className;
     }
-
-    private String className;
 }

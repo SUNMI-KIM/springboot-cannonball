@@ -1,17 +1,17 @@
-package cannonball.cannonball.Domain;
+package cannonball.cannonball.DTO;
 
-public class RandomResult {
-    int classNum;
+public class RandomApplicationDto {
+    String classNum;
     String name;
     String gender;
     String randomName;
     int groupNum;
 
-    public int getClassNum() {
+    public String getClassNum() {
         return classNum;
     }
 
-    public void setClassNum(int classNum) {
+    public void setClassNum(String classNum) {
         this.classNum = classNum;
     }
 
@@ -38,6 +38,8 @@ public class RandomResult {
     public void setRandomName(String randomName) {
         this.randomName = randomName;
     }
+
+
 
     public int getGroupNum() {
         return groupNum;

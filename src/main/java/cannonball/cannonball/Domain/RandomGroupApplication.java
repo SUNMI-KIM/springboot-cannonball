@@ -1,33 +1,16 @@
 package cannonball.cannonball.Domain;
 
 public class RandomGroupApplication {
-    private int classNum;
-    private String name;
-    private String gender;
+    private String classNum;
     private String randomName;
+    private int groupNum;
 
-    public int getClassNum() {
+    public String getClassNum() {
         return classNum;
     }
 
-    public void setClassNum(int classNum) {
+    public void setClassNum(String classNum) {
         this.classNum = classNum;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getRandomName() {
@@ -36,5 +19,13 @@ public class RandomGroupApplication {
 
     public void setRandomName(String randomName) {
         this.randomName = randomName;
+    }
+
+    public int getGroupNum() {
+        return groupNum;
+    }
+
+    public void setGroupNum(int groupNum) {
+        this.groupNum = groupNum;
     }
 }

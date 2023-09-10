@@ -17,29 +17,39 @@ public class ProfileService {
         this.profileRepository = profileRepository;
     }
 
-    public int MembershipLogin(int classNum, String passWord){
+    public boolean MembershipLogin(String classNum, String passWord){
         Optional<Profile> profile = profileRepository.findById(classNum);
         if (profile.isPresent()){
-            if (profile.get().getPassWord().equals(passWord)){
-                return 1;
-            }
+            if (profile.get().getPassWord().equals(passWord)) return true;
         }
-        return 0;
+        return false;
     }
 
-    public int MembershipJoin(Profile profile){
+    public boolean MembershipJoin(Profile profile){
         if (profileRepository.findById(profile.getClassNum()).isPresent()){
-            return 0;
+            return false;
         }
         profileRepository.save(profile);
-        return 1;
+        return true;
     }
 
-    public void MembershipWithDraw(int classNum){
-        profileRepository.deleteUser(classNum);
+    public boolean MembershipWithDraw(String classNum){
+        if (profileRepository.deleteUser(classNum) == 1) {
+            return true;
+        }
+        return false;
     }
 
-    public List<Profile> allMember() { return profileRepository.findAll(); }
+    public List<Profile> allMember() {
+        return profileRepository.findAll();
+    }
+
+    public boolean modifyMember(Profile profile) {
+        if (profileRepository.modify(profile) == 1) {
+            return true;
+        }
+        return false;
+    }
 
     private void validateDuplicateProfile(Profile profile) {
         profileRepository.findById(profile.getClassNum())

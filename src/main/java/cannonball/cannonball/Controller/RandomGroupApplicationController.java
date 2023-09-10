@@ -1,12 +1,17 @@
 package cannonball.cannonball.Controller;
 
+import cannonball.cannonball.DTO.RandomApplicationDto;
+import cannonball.cannonball.DTO.Response;
+import cannonball.cannonball.DTO.ResponseList;
 import cannonball.cannonball.Domain.RandomGroupApplication;
 import cannonball.cannonball.Service.RandomGroupApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RandomGroupApplicationController {
@@ -17,26 +22,54 @@ public class RandomGroupApplicationController {
         this.randomGroupApplicationService = randomGroupApplicationService;
     }
 
-    @PostMapping("cannonball/application")
-    public int GroupApplication(@RequestParam int classNum,
-                                @RequestParam String name,
-                                @RequestParam String gender,
-                                @RequestParam String randomName) {
-        RandomGroupApplication randomGroupApplication = new RandomGroupApplication();
-        randomGroupApplication.setClassNum(classNum);
-        randomGroupApplication.setName(name);
-        randomGroupApplication.setGender(gender);
-        randomGroupApplication.setRandomName(randomName);
-        return randomGroupApplicationService.saveRandomApply(randomGroupApplication);
+    @PostMapping("cannonball/random-group-application")
+    public ResponseEntity<Response> groupApplication(@RequestBody RandomGroupApplication randomGroupApplication) {
+        if (randomGroupApplicationService.application(randomGroupApplication)) {
+            return ResponseEntity.ok().body(new Response("랜덤 조 신청 성공", 1));
+        }
+        return ResponseEntity.badRequest().body(new Response("랜덤 조 신청 실패", 0));
     }
 
-    @DeleteMapping("cannonball/withdrawRandom")
-    public int withdrawRandomGroupApplication(@RequestParam int classNum, @RequestParam String randomName){
-        return randomGroupApplicationService.withdrawRandomApply(classNum, randomName);
+    @DeleteMapping("cannonball/random-group-application")
+    public ResponseEntity<Response> groupWithdraw(@RequestParam("classNum") String classNum, @RequestParam("randomName") String randomName) {
+        if (randomGroupApplicationService.withdraw(classNum, randomName)) {
+            return ResponseEntity.ok().body(new Response("랜덤 조 탈퇴 성공", 1));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 탈퇴 실패", 0));
     }
 
-    @PostMapping("cannonball/numberOfApplicants")
-    public int numberOfApplicants(@RequestParam String randomName){
-        return randomGroupApplicationService.countOfApplicants(randomName);
+    @GetMapping("cannonball/random-group-application")
+    public ResponseEntity<ResponseList> showOrganizationGroup(@RequestParam("randomName") String randomName) {
+        List<RandomApplicationDto> randomApplicationDtoList = randomGroupApplicationService.organizationShow(randomName);
+        if (randomApplicationDtoList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseList("랜덤 번개조를 찾을 수 없음", null, 0));
+        }
+        return ResponseEntity.ok().body(new ResponseList("랜덤번개조 편성 리스트", randomApplicationDtoList, randomApplicationDtoList.size()));
     }
+
+    @GetMapping("cannonball/number-of-applicants")
+    public ResponseEntity<Response> numberOfApplicants(@RequestParam("randomName") String randomName) {
+        int applicants = randomGroupApplicationService.countOfApplicants(randomName);
+        if (applicants > 0) return ResponseEntity.ok().body(new Response("랜덤 조 신청 인원", applicants));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 신청 인원 불러오기 실패", 0));
+    }
+
+    @PostMapping("cannonball/organization-group")
+    public ResponseEntity<Response> organizationGroup(@RequestBody Map<String, String> randomNameMap) {
+        String randomName = randomNameMap.get("randomName");
+        if (randomGroupApplicationService.groupOrganization(randomName)) {
+            return ResponseEntity.ok().body(new Response("랜덤 조 편성 성공", 1));
+        }
+        return ResponseEntity.internalServerError().body(new Response("랜덤 조 편성 실패", 0));
+    }
+
+    @PutMapping("cannonball/random-group-application")
+    public ResponseEntity<Response> modifyOrganizationGroup(@RequestBody RandomGroupApplication randomGroupApplication) {
+        if (randomGroupApplicationService.modifyRandomGroup(randomGroupApplication)) {
+            return ResponseEntity.ok().body(new Response("랜덤 번개조 그룹 번호 수정 성공", 1));
+        }
+        return ResponseEntity.badRequest().body(new Response("랜덤 조를 신청하지 않음", 0));
+    }
+
+
 }
