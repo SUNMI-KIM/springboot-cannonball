@@ -31,16 +31,15 @@ public class RandomGroupApplicationController {
     }
 
     @DeleteMapping("cannonball/random-group-application")
-    public ResponseEntity<Response> groupWithdraw(@RequestBody String classNum, String randomName) {
-        if (randomGroupApplicationService.withdraw(randomName, classNum)) {
+    public ResponseEntity<Response> groupWithdraw(@RequestParam("classNum") String classNum, @RequestParam("randomName") String randomName) {
+        if (randomGroupApplicationService.withdraw(classNum, randomName)) {
             return ResponseEntity.ok().body(new Response("랜덤 조 탈퇴 성공", 1));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 탈퇴 실패", 0));
     }
 
     @GetMapping("cannonball/random-group-application")
-    public ResponseEntity<ResponseList> showOrganizationGroup(@RequestBody Map<String, String> randomNameMap) {
-        String randomName = randomNameMap.get("randomName");
+    public ResponseEntity<ResponseList> showOrganizationGroup(@RequestParam("randomName") String randomName) {
         List<RandomApplicationDto> randomApplicationDtoList = randomGroupApplicationService.organizationShow(randomName);
         if (randomApplicationDtoList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseList("랜덤 번개조를 찾을 수 없음", null, 0));
@@ -49,8 +48,7 @@ public class RandomGroupApplicationController {
     }
 
     @GetMapping("cannonball/number-of-applicants")
-    public ResponseEntity<Response> numberOfApplicants(@RequestBody Map<String, String> randomNameMap) {
-        String randomName = randomNameMap.get("randomName");
+    public ResponseEntity<Response> numberOfApplicants(@RequestParam("randomName") String randomName) {
         int applicants = randomGroupApplicationService.countOfApplicants(randomName);
         if (applicants > 0) return ResponseEntity.ok().body(new Response("랜덤 조 신청 인원", applicants));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("랜덤 조 신청 인원 불러오기 실패", 0));
@@ -63,6 +61,14 @@ public class RandomGroupApplicationController {
             return ResponseEntity.ok().body(new Response("랜덤 조 편성 성공", 1));
         }
         return ResponseEntity.internalServerError().body(new Response("랜덤 조 편성 실패", 0));
+    }
+
+    @PutMapping("cannonball/random-group-application")
+    public ResponseEntity<Response> modifyOrganizationGroup(@RequestBody RandomGroupApplication randomGroupApplication) {
+        if (randomGroupApplicationService.modifyRandomGroup(randomGroupApplication)) {
+            return ResponseEntity.ok().body(new Response("랜덤 번개조 그룹 번호 수정 성공", 1));
+        }
+        return ResponseEntity.badRequest().body(new Response("랜덤 조를 신청하지 않음", 0));
     }
 
 

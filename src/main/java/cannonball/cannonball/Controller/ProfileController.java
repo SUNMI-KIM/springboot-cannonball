@@ -30,10 +30,8 @@ public class ProfileController {
     }
 
     @GetMapping("/cannonball/login")
-    public ResponseEntity<Response> login (@RequestBody Map<String, String> profileMap) {
-        String classNum = profileMap.get("classNum");
-        String password = profileMap.get("passWord");
-        if (profileService.MembershipLogin(classNum, password)) {
+    public ResponseEntity<Response> login (@RequestParam("classNum") String classNum, @RequestParam("passWord") String passWord) {
+        if (profileService.MembershipLogin(classNum, passWord)) {
             return ResponseEntity.ok().body(new Response("로그인 성공", 1));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("로그인 실패", 0));

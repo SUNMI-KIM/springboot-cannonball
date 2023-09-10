@@ -45,9 +45,15 @@ public class RandomGroupApplicationRepository {
         return result;
     }
 
+    public int getInGroupOf(String randomName) {
+        int result = jdbcTemplate.queryForObject("select inGroupOf from randomgroup where randomName=?",
+                Integer.class, randomName);
+        return result;
+    }
+
     public List<RandomApplicationDto> findAll(String randomName) {
         String sql = "select a.classNum, a.randomName, a.groupNum, b.name, b.gender " +
-                "from randomgroupapplication a join profile b on a.classNum = b.classNum where randomName=?";
+                "from randomgroupapplication a join profile b on a.classNum = b.classNum where randomName=? order by groupNum";
         return jdbcTemplate.query(sql, randomApplicationDtoRowMapper(), randomName);
     }
 

@@ -53,8 +53,7 @@ public class RandomGroupController {
     }
 
     @GetMapping("cannonball/date")
-    public ResponseEntity<Response> findStartRandomDate(@RequestBody Map<String, String> randomNameMap) {
-        String randomName = randomNameMap.get("randomName");
+    public ResponseEntity<Response> findStartRandomDate(@RequestParam("randomName") String randomName) {
         Response response = randomGroupService.findRandomDate(randomName);
         if (response.getData().equals(0)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);

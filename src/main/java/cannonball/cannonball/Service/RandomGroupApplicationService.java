@@ -26,13 +26,13 @@ public class RandomGroupApplicationService {
         return true;
     }
 
-    public boolean withdraw(String randomName, String classNum) {
+    public boolean withdraw(String classNum, String randomName) {
         if (randomGroupApplicationRepository.findByName(
                 randomName, classNum).isPresent()) {
-            return false;
+            randomGroupApplicationRepository.delete(classNum, randomName);
+            return true;
         }
-        randomGroupApplicationRepository.delete(randomName, classNum);
-        return true;
+        return false;
     }
 
     public int countOfApplicants(String randomName) {
@@ -44,6 +44,9 @@ public class RandomGroupApplicationService {
     }
 
     public boolean groupOrganization(String randomName) {
+
+        try {
+
         List<RandomApplicationDto> randomResults;
         randomResults = randomGroupApplicationRepository.findAll(randomName);
 
@@ -56,42 +59,37 @@ public class RandomGroupApplicationService {
         }
 
         int GroupNum = (randomResultsBoy.size() + randomResultsGirl.size())
-                / randomGroupApplicationRepository.countForApplicants(randomName);
-        int manInGroupOf = randomResultsBoy.size() / GroupNum;
-        int girlInGroupOf = randomResultsGirl.size() / GroupNum;
-        int remainMan = randomResultsBoy.size() % manInGroupOf;
-        int remainGirl = randomResultsGirl.size() / girlInGroupOf;
+                / randomGroupApplicationRepository.getInGroupOf(randomName);
         Collections.shuffle(randomResultsBoy); Collections.shuffle(randomResultsGirl);
 
-        try {
-            // man
-            for (int i = 0; i < GroupNum; i++) {
-                for (int r = 0; r < manInGroupOf; r++) {
-                    randomResultsBoy.get(i * GroupNum + r).setGroupNum(i);
-                    randomGroupApplicationRepository.modify(randomResultsBoy.get(i * GroupNum + r));
-                }
-            }
-            for (int i = 0; i < remainMan; i++) {
-                randomResultsBoy.get(GroupNum * manInGroupOf + i).setGroupNum(i);
-                randomGroupApplicationRepository.modify(randomResultsBoy.get(GroupNum * manInGroupOf + i));
-            }
+        // man
+        for (int i = 0; i < randomResultsBoy.size(); i++) {
+            randomResultsBoy.get(i).setGroupNum(i % GroupNum + 1);
+            randomGroupApplicationRepository.modify(randomResultsBoy.get(i));
+        }
 
-            // Girl
-            for (int i = 0; i < GroupNum; i++) {
-                for (int r = 0; r < girlInGroupOf; r++) {
-                    randomResultsGirl.get(i * GroupNum + r).setGroupNum(i);
-                    randomGroupApplicationRepository.modify(randomResultsGirl.get(i * GroupNum + r));
-                }
-            }
-            for (int i = 0; i < remainGirl; i++) {
-                randomResultsGirl.get(GroupNum * girlInGroupOf + i).setGroupNum(i);
-                randomGroupApplicationRepository.modify(randomResultsGirl.get(GroupNum * girlInGroupOf + i));
-            }
-        }catch (IndexOutOfBoundsException e) {
+        // girl
+        for (int i = 0; i < randomResultsGirl.size(); i++) {
+            randomResultsGirl.get(i).setGroupNum(i % GroupNum + 1);
+            randomGroupApplicationRepository.modify(randomResultsGirl.get(i));
+        }
+
+        }catch (Exception e) {
             return false;
         }
         return true;
+    }
 
+    public boolean modifyRandomGroup(RandomGroupApplication randomGroupApplication) {
+        if (randomGroupApplicationRepository.findByName(randomGroupApplication.getRandomName(), randomGroupApplication.getClassNum()).isPresent()) {
+            RandomApplicationDto randomApplicationDto = new RandomApplicationDto();
+            randomApplicationDto.setRandomName(randomGroupApplication.getRandomName());
+            randomApplicationDto.setClassNum(randomGroupApplication.getClassNum());
+            randomApplicationDto.setGroupNum(randomGroupApplication.getGroupNum());
+            randomGroupApplicationRepository.modify(randomApplicationDto);
+            return true;
+        }
+        return false;
     }
 
 }

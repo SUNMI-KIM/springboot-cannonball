@@ -39,6 +39,8 @@ public class RandomApplicationDto {
         this.randomName = randomName;
     }
 
+
+
     public int getGroupNum() {
         return groupNum;
     }
