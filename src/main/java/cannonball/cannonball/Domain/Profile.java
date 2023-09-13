@@ -1,5 +1,7 @@
 package cannonball.cannonball.Domain;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 public class Profile {
     private String classNum;
     private String name;
@@ -54,5 +56,14 @@ public class Profile {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public Profile hashPassWord(PasswordEncoder passwordEncoder) {
+        this.passWord = passwordEncoder.encode(this.passWord);
+        return this;
+    }
+
+    public boolean checkPassWord(String plainPassword, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(plainPassword, this.passWord);
     }
 }

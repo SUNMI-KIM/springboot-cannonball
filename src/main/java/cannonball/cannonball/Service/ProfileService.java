@@ -3,6 +3,7 @@ package cannonball.cannonball.Service;
 import cannonball.cannonball.Domain.Profile;
 import cannonball.cannonball.Repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,16 +12,19 @@ import java.util.Optional;
 @Service
 public class ProfileService {
     private final ProfileRepository profileRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ProfileService(ProfileRepository profileRepository){
+    public ProfileService(ProfileRepository profileRepository, PasswordEncoder passwordEncoder){
         this.profileRepository = profileRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean MembershipLogin(String classNum, String passWord){
         Optional<Profile> profile = profileRepository.findById(classNum);
         if (profile.isPresent()){
-            if (profile.get().getPassWord().equals(passWord)) return true;
+            if (profile.get().checkPassWord(passWord, passwordEncoder))
+                return true;
         }
         return false;
     }
@@ -29,6 +33,7 @@ public class ProfileService {
         if (profileRepository.findById(profile.getClassNum()).isPresent()){
             return false;
         }
+        profile.hashPassWord(passwordEncoder);
         profileRepository.save(profile);
         return true;
     }
